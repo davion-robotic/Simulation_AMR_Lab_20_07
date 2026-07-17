@@ -1,0 +1,1 @@
+/home/nam/mybot_navigation2/map/gen_navgraph_meters.py

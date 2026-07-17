@@ -1,0 +1,1 @@
+/home/nam/mybot_navigation2/src/send_patrol.py

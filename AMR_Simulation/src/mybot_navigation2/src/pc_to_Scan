@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+
+import rclpy
+from rclpy.node import Node
+
+from sensor_msgs.msg import PointCloud2, LaserScan
+import sensor_msgs_py.point_cloud2 as pc2
+
+import math
+
+
+class MidScan(Node):
+
+    def __init__(self):
+        super().__init__('mid_scan')
+
+        # ===== PARAM =====
+        self.declare_parameter('input_topic', '/camera/points')
+        self.declare_parameter('frame_id', 'base_link')
+
+        self.input_topic = self.get_parameter('input_topic').value
+        self.frame_id = self.get_parameter('frame_id').value
+
+        # MID layer (mày chỉnh ở đây nếu cần)
+        self.z_min = 0.3
+        self.z_max = 0.8
+
+        # Laser config
+        self.angle_min = -math.pi
+        self.angle_max = math.pi
+        self.angle_increment = math.radians(1.0)
+
+        self.range_min = 0.1
+        self.range_max = 5.0
+
+        self.num_bins = int((self.angle_max - self.angle_min) / self.angle_increment)
+
+        # ===== PUB =====
+        self.pub = self.create_publisher(LaserScan, '/scan_mid', 10)
+
+        # ===== SUB =====
+        self.sub = self.create_subscription(
+            PointCloud2,
+            self.input_topic,
+            self.callback,
+            10
+        )
+
+        self.get_logger().info("Mid scan node started")
+
+    def create_empty_scan(self):
+        scan = LaserScan()
+        scan.header.frame_id = self.frame_id
+        scan.angle_min = self.angle_min
+        scan.angle_max = self.angle_max
+        scan.angle_increment = self.angle_increment
+        scan.range_min = self.range_min
+        scan.range_max = self.range_max
+        scan.ranges = [float('inf')] * self.num_bins
+        return scan
+
+    def callback(self, msg):
+
+        scan = self.create_empty_scan()
+        scan.header.stamp = msg.header.stamp
+
+        for p in pc2.read_points(msg, field_names=("x", "y", "z"), skip_nans=True):
+            x, y, z = p
+
+            # lọc theo height (MID only)
+            if z < self.z_min or z > self.z_max:
+                continue
+
+            r = math.sqrt(x*x + y*y)
+            if r < self.range_min or r > self.range_max:
+                continue
+
+            angle = math.atan2(y, x)
+            if angle < self.angle_min or angle > self.angle_max:
+                continue
+
+            bin_idx = int((angle - self.angle_min) / self.angle_increment)
+
+            if r < scan.ranges[bin_idx]:
+                scan.ranges[bin_idx] = r
+
+        self.pub.publish(scan)
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = MidScan()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

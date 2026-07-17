@@ -1,0 +1,66 @@
+building_name: L1
+levels:
+  Base:
+    lanes:
+    - - 0
+      - 1
+      - speed_limit: 0
+    - - 1
+      - 0
+      - speed_limit: 0
+    - - 1
+      - 2
+      - speed_limit: 0
+    - - 2
+      - 1
+      - speed_limit: 0
+    - - 2
+      - 3
+      - speed_limit: 0
+    - - 3
+      - 2
+      - speed_limit: 0
+    - - 3
+      - 4
+      - speed_limit: 0
+    - - 4
+      - 3
+      - speed_limit: 0
+    - - 4
+      - 5
+      - speed_limit: 0
+    - - 5
+      - 4
+      - speed_limit: 0
+    - - 5
+      - 0
+      - is_bidirectional: false
+        speed_limit: 0
+    - - 5
+      - 1
+      - speed_limit: 0
+    - - 1
+      - 5
+      - speed_limit: 0
+    vertices:
+    - - 0.369
+      - 2.58
+      - is_charger: true
+        is_parking_spot: true
+        name: start
+    - - 2.176
+      - 0.511
+      - name: ''
+    - - 1.964
+      - -3.542
+      - name: ''
+    - - -2.899
+      - -3.377
+      - is_parking_spot: true
+        name: ''
+    - - -5.927
+      - -1.15
+      - name: ''
+    - - -3.932
+      - 0.917
+      - name: ''

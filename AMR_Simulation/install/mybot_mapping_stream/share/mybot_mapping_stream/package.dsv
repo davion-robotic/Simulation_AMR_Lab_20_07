@@ -1,0 +1,6 @@
+source;share/mybot_mapping_stream/hook/pythonpath.ps1
+source;share/mybot_mapping_stream/hook/pythonpath.dsv
+source;share/mybot_mapping_stream/hook/pythonpath.sh
+source;share/mybot_mapping_stream/hook/ament_prefix_path.ps1
+source;share/mybot_mapping_stream/hook/ament_prefix_path.dsv
+source;share/mybot_mapping_stream/hook/ament_prefix_path.sh

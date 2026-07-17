@@ -1,0 +1,53 @@
+collision_monitor:
+  ros__parameters:
+    use_sim_time: true
+
+    base_frame_id: base_link
+    odom_frame_id: odom
+
+    cmd_vel_in_topic: cmd_vel_smoothed
+    cmd_vel_out_topic: cmd_vel_Control
+
+    state_topic: collision_monitor_state
+
+    transform_tolerance: 0.5
+    source_timeout: 2.0
+    stop_pub_timeout: 10.0
+
+    enable_stamped_cmd_vel: true
+    base_shift_correction: false
+
+    polygons: ["PolygonStop", "PolygonSlow"]
+
+    # 🔴 HARD STOP ZONE (inner)
+    PolygonStop:
+      type: polygon
+      action_type: stop
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_stop
+      points: [0.5, 0.5,
+               0.5, -0.5,
+              -0.5, -0.5,
+              -0.5, 0.5]
+
+    # 🟡 SLOW ZONE (outer)
+    PolygonSlow:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.5   # 🔥 smooth braking (5–20% speed feels best)
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_slowdown
+      points: [1.0, 1.0,
+               1.0, -1.0,
+              -0.8, -1.0,
+              -0.8, 1.0]
+
+    observation_sources: ["scan"]
+
+    scan:
+      type: scan
+      topic: /scan
+      enabled: true
+      source_timeout: 2.0

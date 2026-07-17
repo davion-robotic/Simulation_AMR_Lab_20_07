@@ -1,0 +1,3 @@
+[console_scripts]
+nav2_speed_control = mybot_nav2_web_control.Nav2_speed_control:main
+

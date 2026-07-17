@@ -1,0 +1,1 @@
+/home/nam/mybot_navigation2/launch/depht.launch.py

@@ -1,0 +1,72 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/nam/mybot_navigation2/build/mybot_navigation2
+-- Install configuration: ""
+-- Execute custom install script
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/Collision.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/Lidar.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/Veloc_smoother.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/bringup.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/depht.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/ekf.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/gen_navgraph.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/launch_sim.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/mapping.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/navigation2.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/rmf.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/launch/rsp.launch.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/map/L1.building.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/map/gen_navgraph_meters.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/map/my_map.pgm
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/map/my_map.png
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/map/my_map.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/map/nav_graphs/0.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/param/Collision.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/param/humble/burger2.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/param/humble/burger3.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/param/humble/mybot.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/param/humble/mybot2.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/param/humble/nav2_params.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/param/mapper_params_online_ansync.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/rviz/tb3_navigation2.rviz
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/rviz/tb3_rmf.rviz
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/description/camera.xacro
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/description/depth_camera.xacro
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/description/gazebo_control.xacro
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/description/inertial_macros.xacro
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/description/lidar.xacro
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/description/robot.urdf.xacro
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/description/robot_core.xacro
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/config/fleet_config.yaml
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/src/fleet_adapter.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/src/send_patrol.py
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/ament_index/resource_index/package_run_dependencies/mybot_navigation2
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/ament_index/resource_index/parent_prefix_path/mybot_navigation2
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/environment/ament_prefix_path.sh
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/environment/ament_prefix_path.dsv
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/environment/path.sh
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/environment/path.dsv
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/local_setup.bash
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/local_setup.sh
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/local_setup.zsh
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/local_setup.dsv
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/package.dsv
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/ament_index/resource_index/packages/mybot_navigation2
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/cmake/mybot_navigation2Config.cmake
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/cmake/mybot_navigation2Config-version.cmake
+-- Symlinking: /home/nam/mybot_navigation2/install/mybot_navigation2/share/mybot_navigation2/package.xml

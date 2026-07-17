@@ -1,0 +1,20 @@
+[0.834s] Invoking command in '/home/nam/AMR_Simulation/src/mybot_mapping_stream': PYTHONPATH=/home/nam/AMR_Simulation/build/mybot_mapping_stream/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/nam/AMR_Simulation/install/mybot_mapping_stream/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/mybot_mapping_stream build --build-base /home/nam/AMR_Simulation/build/mybot_mapping_stream/build install --record /home/nam/AMR_Simulation/build/mybot_mapping_stream/install.log --single-version-externally-managed install_data
+[1.046s] running egg_info
+[1.047s] writing ../../build/mybot_mapping_stream/mybot_mapping_stream.egg-info/PKG-INFO
+[1.047s] writing dependency_links to ../../build/mybot_mapping_stream/mybot_mapping_stream.egg-info/dependency_links.txt
+[1.047s] writing entry points to ../../build/mybot_mapping_stream/mybot_mapping_stream.egg-info/entry_points.txt
+[1.047s] writing requirements to ../../build/mybot_mapping_stream/mybot_mapping_stream.egg-info/requires.txt
+[1.047s] writing top-level names to ../../build/mybot_mapping_stream/mybot_mapping_stream.egg-info/top_level.txt
+[1.049s] reading manifest file '../../build/mybot_mapping_stream/mybot_mapping_stream.egg-info/SOURCES.txt'
+[1.049s] writing manifest file '../../build/mybot_mapping_stream/mybot_mapping_stream.egg-info/SOURCES.txt'
+[1.049s] running build
+[1.050s] running build_py
+[1.050s] running install
+[1.050s] running install_lib
+[1.051s] running install_data
+[1.051s] running install_egg_info
+[1.063s] removing '/home/nam/AMR_Simulation/install/mybot_mapping_stream/lib/python3.10/site-packages/mybot_mapping_stream-0.0.0-py3.10.egg-info' (and everything under it)
+[1.063s] Copying ../../build/mybot_mapping_stream/mybot_mapping_stream.egg-info to /home/nam/AMR_Simulation/install/mybot_mapping_stream/lib/python3.10/site-packages/mybot_mapping_stream-0.0.0-py3.10.egg-info
+[1.064s] running install_scripts
+[1.085s] writing list of installed files to '/home/nam/AMR_Simulation/build/mybot_mapping_stream/install.log'
+[1.111s] Invoked command in '/home/nam/AMR_Simulation/src/mybot_mapping_stream' returned '0': PYTHONPATH=/home/nam/AMR_Simulation/build/mybot_mapping_stream/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/nam/AMR_Simulation/install/mybot_mapping_stream/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/mybot_mapping_stream build --build-base /home/nam/AMR_Simulation/build/mybot_mapping_stream/build install --record /home/nam/AMR_Simulation/build/mybot_mapping_stream/install.log --single-version-externally-managed install_data
