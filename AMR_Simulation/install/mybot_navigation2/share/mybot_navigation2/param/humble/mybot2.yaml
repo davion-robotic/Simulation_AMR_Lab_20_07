@@ -47,6 +47,40 @@ amcl_rclcpp_node:
   ros__parameters:
     use_sim_time: False
 
+icp_localization:
+  ros__parameters:
+    use_sim_time: False
+    global_frame_id: "map"
+    odom_frame_id: "odom"
+    base_frame_id: "base_footprint"
+    scan_topic: "/scan"
+    map_topic: "/map"
+    initial_pose_topic: "/initialpose"
+    pose_topic: "/amcl_pose"
+    
+    # ICP Matching Parameters
+    max_iterations: 30
+    max_correspondence_distance: 0.5
+    transformation_epsilon: 1e-6
+    euclidean_fitness_epsilon: 1e-5
+    outlier_threshold: 0.15
+    
+    # Range Filtering
+    min_laser_range: 0.1
+    max_laser_range: 12.0
+    
+    # TF & Rate
+    tf_broadcast: true
+    transform_tolerance: 0.2
+    update_rate: 20.0
+    
+    # Smooth & Jump Filter
+    max_linear_jump: 0.35
+    max_angular_jump: 0.3
+    covariance_x: 0.05
+    covariance_y: 0.05
+    covariance_yaw: 0.02
+
 bt_navigator:
   ros__parameters:
     use_sim_time: False
@@ -98,7 +132,7 @@ lifecycle_manager:
     autostart: True
     node_names:
       - map_server
-      - amcl
+      - icp_localization
       - planner_server
       - controller_server
       - recoveries_server

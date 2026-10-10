@@ -1,0 +1,25 @@
+{
+  "map_name": "DefaultLidarMap",
+  "goals": [
+    {
+      "goal_id": "P1",
+      "name": "\u0110i\u1ec3m 1",
+      "pose": {
+        "x": 1.332,
+        "y": 0.0,
+        "theta": -0.0
+      },
+      "description": ""
+    },
+    {
+      "goal_id": "P2",
+      "name": "\u0110i\u1ec3m 2",
+      "pose": {
+        "x": 2.345,
+        "y": 0.653,
+        "theta": 0.807
+      },
+      "description": ""
+    }
+  ]
+}

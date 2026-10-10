@@ -1,0 +1,47 @@
+levels:
+  L1:
+    vertices:
+    - - -5.503
+      - 0.725
+      - {name: P3, is_parking_spot: false, is_charger: false, is_pickup: false, is_destination: false,
+        is_boost: false, yaw: 0.0}
+    - - -4.274
+      - -0.274
+      - {name: P5, is_parking_spot: false, is_charger: false, is_pickup: false, is_destination: false,
+        is_boost: false, yaw: 0.0}
+    - - -6.29
+      - -0.668
+      - {name: P6, is_parking_spot: false, is_charger: false, is_pickup: false, is_destination: false,
+        is_boost: false, yaw: 0.0}
+    - - -5.061
+      - -1.192
+      - {name: P4, is_parking_spot: false, is_charger: false, is_pickup: false, is_destination: false,
+        is_boost: false, yaw: 0.0}
+    lanes:
+    - - 0
+      - 2
+      - {speed_limit: 0.0}
+    - - 2
+      - 0
+      - {speed_limit: 0.0}
+    - - 1
+      - 0
+      - {speed_limit: 0.0}
+    - - 0
+      - 1
+      - {speed_limit: 0.0}
+    - - 2
+      - 3
+      - {speed_limit: 0.0}
+    - - 3
+      - 2
+      - {speed_limit: 0.0}
+    - - 3
+      - 1
+      - {speed_limit: 0.0}
+    - - 1
+      - 3
+      - {speed_limit: 0.0}
+lifts: {}
+doors: {}
+building_name: topology

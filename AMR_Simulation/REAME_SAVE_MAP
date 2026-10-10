@@ -1,0 +1,102 @@
+# Lưu map bằng `save_map.py`
+
+`save_map.py` là node ROS 2 nhận lệnh lưu map từ web/ROS Bridge. Node gọi
+`nav2_map_server/map_saver_cli` để lưu map SLAM hiện tại.
+
+## Điều kiện trước khi lưu
+
+1. Robot simulation hoặc robot thật đang chạy và có topic `/scan`, TF, odometry.
+2. `slam_toolbox` đang chạy và đã tạo map trên topic `/map`.
+3. Node `save_map.py` đang chạy.
+
+Với mô phỏng, phải chạy simulation trước trong Terminal 1:
+
+```bash
+source ~/.bashrc
+ros2 launch mybot_navigation2 launch_sim.launch.py
+```
+
+Sau đó mở Terminal 2 để chạy SLAM và node lưu map:
+
+```bash
+source ~/.bashrc
+ros2 launch mybot_navigation2 mapping.launch.py use_sim_time:=true
+```
+
+`mapping.launch.py` tự khởi chạy `save_map.py`. Không chạy thêm node thứ hai
+nếu launch này đang hoạt động.
+
+Để chạy riêng node lưu map:
+
+```bash
+source ~/.bashrc
+ros2 run mybot_navigation2 save_map.py
+```
+
+## Lệnh từ web / ROS Bridge
+
+Gửi một message kiểu `std_msgs/msg/String` đến topic:
+
+```text
+/web/save_map_cmd
+```
+
+Nội dung JSON:
+
+```json
+{"map_name":"test1"}
+```
+
+`map_name` chỉ được dùng các ký tự `a-z`, `A-Z`, `0-9`, `_`, `-`. Nếu tên
+không hợp lệ hoặc rỗng, node sẽ tự tạo tên dạng `map_YYYYMMDD_HHMMSS`.
+
+Ví dụ thử trực tiếp từ terminal (không cần web):
+
+```bash
+ros2 topic pub --once /web/save_map_cmd std_msgs/msg/String "{data: '{\"map_name\":\"test1\"}'}"
+```
+
+## Kết quả
+
+Node gửi JSON kết quả tới topic:
+
+```text
+/web/save_map_result
+```
+
+Theo dõi kết quả từ terminal khác:
+
+```bash
+ros2 topic echo --once /web/save_map_result
+```
+
+Khi thành công, kết quả có dạng:
+
+```json
+{
+  "status": "ok",
+  "map_name": "test1",
+  "saved_path": "/home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/src/mybot_navigation2/map/test1.yaml"
+}
+```
+
+## Vị trí file map
+
+Map được lưu tại:
+
+```text
+/home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/src/mybot_navigation2/map
+```
+
+Với tên `test1`, Nav2 tạo hai file:
+
+```text
+test1.yaml
+test1.pgm
+```
+
+Sau đó có thể nạp map này bằng Nav2 với:
+
+```bash
+ros2 launch mybot_navigation2 navigation2.launch.py map:=/home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/src/mybot_navigation2/map/test1.yaml
+```

@@ -1,0 +1,15 @@
+{
+  "map_name": "my_map",
+  "goals": [
+    {
+      "goal_id": "P1",
+      "name": "Trạm sạc",
+      "pose": {
+        "x": 0.0,
+        "y": 0.0,
+        "theta": 0.0
+      },
+      "description": "Vị trí mặc định"
+    }
+  ]
+}

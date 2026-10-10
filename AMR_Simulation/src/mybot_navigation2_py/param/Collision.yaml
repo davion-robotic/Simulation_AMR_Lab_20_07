@@ -1,0 +1,120 @@
+collision_monitor:
+  ros__parameters:
+    use_sim_time: false
+
+    base_frame_id: base_link
+    odom_frame_id: odom
+
+    # cmd_vel_in_topic: cmd_vel_smoothed
+    # cmd_vel_out_topic: cmd_vel_control
+
+    cmd_vel_in_topic: cmd_vel
+    cmd_vel_out_topic: cmd_vel_out
+
+
+    state_topic: collision_monitor_state
+
+    transform_tolerance: 0.1
+    source_timeout: 2.0
+    stop_pub_timeout: 2.0
+
+    enable_stamped_cmd_vel: false
+    base_shift_correction: false
+
+    # polygons: ["PolygonStop", "PolygonSlow1","PolygonSlow2","PolygonSlow3","PolygonSlow4","PolygonSlow5"]
+    polygons: ["PolygonStop", "PolygonSlow1","PolygonSlow3","PolygonSlow5"]
+
+      # 🔴 HARD STOP ZONE — 0.5m circle around robot (all sides)
+    PolygonStop:
+      type: circle
+      action_type: stop
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_stop
+      radius: 0.5
+
+    # 🟡 SLOW ZONE (outer)
+    PolygonSlow1:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.90
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_slowdown1
+
+      points: [0.9, 0.9,
+              0.9, -0.9,
+              0.1, -0.9,
+              0.1, 0.9]
+
+    PolygonSlow2:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.85
+      enabled: False
+      visualize: true
+      polygon_pub_topic: polygon_slowdown2
+
+      points: [0.8, 0.8,
+              0.8, -0.8,
+              0.2, -0.8,
+              0.2, 0.8]
+
+    PolygonSlow3:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.75
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_slowdown3
+
+      points: [0.7, 0.7,
+              0.7, -0.7,
+              0.25, -0.7,
+              0.25, 0.7]
+
+    PolygonSlow4:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.65
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_slowdown4
+
+      points: [0.6, 0.6,
+              0.6, -0.6,
+              0.3, -0.6,
+              0.3, 0.6]
+
+    PolygonSlow5:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.50
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_slowdown5
+
+      points: [0.55, 0.55,
+              0.55, -0.55,
+              0.35, -0.55,
+              0.35, 0.55]
+
+    observation_sources: ["scan", "scan_cam01", "scan_cam02"]
+
+    scan:
+      type: scan
+      topic: /scan_filtered
+      enabled: true
+      source_timeout: 2.0
+
+    scan_cam01:
+      type: scan
+      topic: /scan_cam01
+      enabled: true
+      source_timeout: 2.0
+
+    scan_cam02:
+      type: scan
+      topic: /scan_cam02
+      enabled: true
+      source_timeout: 2.0

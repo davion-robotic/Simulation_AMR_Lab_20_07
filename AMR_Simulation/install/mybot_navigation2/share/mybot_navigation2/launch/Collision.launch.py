@@ -1,9 +1,11 @@
+import os
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
-
-    collision_params = "/home/warlord/my_bot/src/mybot_navigation2/param/Collision.yaml"
+    pkg_dir = get_package_share_directory('mybot_navigation2')
+    collision_params = os.path.join(pkg_dir, 'param', 'Collision.yaml')
 
     collision_monitor_node = Node(
         package='nav2_collision_monitor',

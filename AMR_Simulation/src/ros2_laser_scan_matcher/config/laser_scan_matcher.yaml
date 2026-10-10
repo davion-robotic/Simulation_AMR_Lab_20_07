@@ -1,0 +1,31 @@
+laser_scan_matcher:
+  ros__parameters:
+    use_sim_time: true
+
+    # Coordinate frames (Khớp chuẩn mô hình AMR)
+    base_frame: "base_link"
+    odom_frame: "odom"
+    map_frame: "map"
+    laser_frame: "laser_frame"
+
+    # Outputs
+    publish_odom: "/scan_odom"  # Tên topic Odometry xuất ra (để trống nếu không muốn xuất)
+    publish_tf: false           # Đặt false nếu dung hợp qua EKF; đặt true nếu dùng trực tiếp
+
+    # Keyframe thresholds
+    kf_dist_linear: 0.05        # Khoảng cách di chuyển tạo keyframe mới (mét)
+    kf_dist_angular: 0.05       # Góc quay tạo keyframe mới (rad ~ 2.86 độ)
+
+    # Point-to-Line ICP (PL-ICP) Algorithm Settings
+    use_point_to_line_distance: 1  # 1: PL-ICP (chính xác hơn cho môi trường trong nhà), 0: ICP chuẩn
+    max_iterations: 15             # Số vòng lặp tối đa của ICP
+    max_angular_correction_deg: 45.0
+    max_linear_correction: 0.50
+    max_correspondence_dist: 0.30
+    sigma: 0.010
+    use_corr_tricks: 1
+    restart: 0
+    clustering_threshold: 0.25
+    orientation_neighbourhood: 20
+    outliers_maxPerc: 0.90
+    outliers_remove_doubles: 1

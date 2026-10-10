@@ -50,17 +50,17 @@ levels:
         name: start
     - - 2.176
       - 0.511
-      - name: ''
+      - name: p1
     - - 1.964
       - -3.542
-      - name: ''
+      - name: p2
     - - -2.899
       - -3.377
       - is_parking_spot: true
-        name: ''
+        name: p3
     - - -5.927
       - -1.15
-      - name: ''
+      - name: p4
     - - -3.932
       - 0.917
-      - name: ''
+      - name: p5

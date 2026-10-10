@@ -1,0 +1,41 @@
+[INFO] [1788616067.178264507] [topology_manager]: Published available topology for 'map_lab20' to /topology_manager/available_topology
+[INFO] [1788616067.178784892] [topology_manager]: TopologyManagerNode (ROS 2 Adapter) Ready!
+[INFO] [1788616445.839821521] [topology_manager]: Published available topology for 'map_lab20' to /topology_manager/available_topology
+[INFO] [1788616445.841949755] [topology_manager]: Map switched to 'map_lab20'. Syncing topology...
+[INFO] [1788616445.848957271] [topology_manager]: Published available topology for 'map_lab20' to /topology_manager/available_topology
+[INFO] [1788616449.403176079] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616449.405852635] [topology_manager]: Map switched to 'map_lab21'. Syncing topology...
+[INFO] [1788616449.492080610] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616455.069503101] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616551.157656354] [topology_manager]: Published available topology for 'Default Lidar Map' to /topology_manager/available_topology
+[INFO] [1788616554.287517589] [topology_manager]: Published available topology for 'L1.building' to /topology_manager/available_topology
+[INFO] [1788616562.823536840] [topology_manager]: Published available topology for 'L1.building' to /topology_manager/available_topology
+[INFO] [1788616591.785525763] [topology_manager]: Published available topology for 'map_lab20' to /topology_manager/available_topology
+[INFO] [1788616591.787330715] [topology_manager]: Map switched to 'map_lab20'. Syncing topology...
+[INFO] [1788616591.794625610] [topology_manager]: Published available topology for 'map_lab20' to /topology_manager/available_topology
+[INFO] [1788616610.354058178] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616610.358391690] [topology_manager]: Map switched to 'map_lab21'. Syncing topology...
+[INFO] [1788616610.437688030] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616611.570277352] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616683.430618249] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616684.335362768] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616685.115844251] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616685.885000794] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616686.452266837] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616687.562606857] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616688.650561754] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616693.892123369] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616695.064856120] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616703.009776131] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616704.474672819] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616705.286409765] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616711.726175095] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616823.241896575] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616835.166160563] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616848.103492367] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616849.085876192] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616856.050799131] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616880.965187996] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788616881.666379212] [topology_manager]: Published available topology for 'map_lab21' to /topology_manager/available_topology
+[INFO] [1788617592.949781255] [topology_manager]: Published available topology for 'L1.building' to /topology_manager/available_topology
+[INFO] [1788617759.392269595] [topology_manager]: Published available topology for 'L1.building' to /topology_manager/available_topology

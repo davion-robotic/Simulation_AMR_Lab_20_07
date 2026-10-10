@@ -1,0 +1,86 @@
+collision_monitor_slow:
+  ros__parameters:
+    use_sim_time: false
+
+    base_frame_id: base_link
+    odom_frame_id: odom
+
+    cmd_vel_in_topic:  /cmd_vel_relay
+    cmd_vel_out_topic: /cmd_vel_slowed
+
+    state_topic: collision_slow_state
+
+    transform_tolerance: 0.1
+    source_timeout: 2.0
+    stop_pub_timeout: 2.0
+
+    enable_stamped_cmd_vel: false
+    base_shift_correction: false
+
+    polygons: ["PolygonStop1", "PolygonSlow1", "PolygonSlow3", "PolygonSlow5"]
+    PolygonStop1:
+      type: polygon
+      action_type: stop
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_stop1
+      points: [0.45, 0.20,
+               0.45, -0.20,
+              -0.20, -0.20,
+              -0.20, 0.20]
+
+    PolygonSlow1:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.90
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_slowdown1
+      points: [0.9, 0.9,
+               0.9, -0.9,
+               0.1, -0.9,
+               0.1, 0.9]
+
+    PolygonSlow3:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.75
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_slowdown3
+      points: [0.7, 0.7,
+               0.7, -0.7,
+               0.25, -0.7,
+               0.25, 0.7]
+
+    PolygonSlow5:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.50
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_slowdown5
+      points: [0.55, 0.55,
+               0.55, -0.55,
+               0.35, -0.55,
+               0.35, 0.55]
+
+    observation_sources: ["scan", "scan_cam01", "scan_cam02"]
+
+    scan:
+      type: scan
+      topic: /scan_filtered
+      enabled: true
+      source_timeout: 2.0
+
+    scan_cam01:
+      type: scan
+      topic: /scan_cam01
+      enabled: true
+      source_timeout: 2.0
+
+    scan_cam02:
+      type: scan
+      topic: /scan_cam02
+      enabled: true
+      source_timeout: 2.0

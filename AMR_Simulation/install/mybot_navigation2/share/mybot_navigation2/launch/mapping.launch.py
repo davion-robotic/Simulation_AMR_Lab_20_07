@@ -16,31 +16,20 @@ def generate_launch_description():
             default_value='false'
         ),
 
-        # ===== SLAM TOOLBOX =====
+        # ===== MAPPING LIFECYCLE MANAGER =====
+        # Quản lý vòng đời SLAM mapping - chỉ bắt đầu khi nhận lệnh start
         Node(
-            package='slam_toolbox',
-            executable='async_slam_toolbox_node',
-            name='slam_toolbox',
+            package='mybot_mapping',
+            executable='mapping_lifecycle',
+            name='mapping_lifecycle_manager',
             output='screen',
-            parameters=[{
-                'use_sim_time': use_sim_time,
+        ),
 
-                # 🔥 FRAME
-                'odom_frame': 'odom',
-                'base_frame': 'base_link',
-                'map_frame': 'map',
-
-                # 🔥 USE FILTERED SCAN
-                'scan_topic': '/scan',
-                # 'scan_topic': '/scan',
-
-                # 🔥 BASIC TUNING
-                'map_update_interval': 2.0,
-                'max_laser_range': 12.0,
-
-                # 👉 giúp ổn hơn cho lidar 180°
-                'minimum_travel_distance': 0.05,
-                'minimum_travel_heading': 0.05,
-            }]
+        # Nhận lệnh /web/save_map_cmd và lưu map vào thư mục map của package.
+        Node(
+            package='mybot_mapping',
+            executable='save_map',
+            name='map_save_proxy',
+            output='screen',
         ),
     ])

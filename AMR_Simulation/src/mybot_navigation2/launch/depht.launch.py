@@ -1,10 +1,12 @@
 from launch import LaunchDescription
-from launch.actions import ExecuteProcess
+from launch_ros.actions import Node
 
 def generate_launch_description():
     return LaunchDescription([
-        ExecuteProcess(
-            cmd=['python3', '/home/warlord/turtlebot3_ws/src/turtlebot3/turtlebot3_navigation2/Depht.py'],
+        Node(
+            package='mybot_navigation2',
+            executable='Depht.py',
+            name='depth_node',
             output='screen'
         )
     ])

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/nam/AMR_Simulation/src/mybot_navigation2
+CMAKE_SOURCE_DIR = /home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/src/mybot_navigation2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/nam/AMR_Simulation/build/mybot_navigation2
+CMAKE_BINARY_DIR = /home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/build/mybot_navigation2
 
 # Utility rule file for mybot_navigation2_uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/mybot_navigation2_uninstall.dir/compiler_depend.make
 include CMakeFiles/mybot_navigation2_uninstall.dir/progress.make
 
 CMakeFiles/mybot_navigation2_uninstall:
-	/usr/bin/cmake -P /home/nam/AMR_Simulation/build/mybot_navigation2/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
+	/usr/bin/cmake -P /home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/build/mybot_navigation2/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
 
 mybot_navigation2_uninstall: CMakeFiles/mybot_navigation2_uninstall
 mybot_navigation2_uninstall: CMakeFiles/mybot_navigation2_uninstall.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/mybot_navigation2_uninstall.dir/clean:
 .PHONY : CMakeFiles/mybot_navigation2_uninstall.dir/clean
 
 CMakeFiles/mybot_navigation2_uninstall.dir/depend:
-	cd /home/nam/AMR_Simulation/build/mybot_navigation2 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nam/AMR_Simulation/src/mybot_navigation2 /home/nam/AMR_Simulation/src/mybot_navigation2 /home/nam/AMR_Simulation/build/mybot_navigation2 /home/nam/AMR_Simulation/build/mybot_navigation2 /home/nam/AMR_Simulation/build/mybot_navigation2/CMakeFiles/mybot_navigation2_uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/build/mybot_navigation2 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/src/mybot_navigation2 /home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/src/mybot_navigation2 /home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/build/mybot_navigation2 /home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/build/mybot_navigation2 /home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/build/mybot_navigation2/CMakeFiles/mybot_navigation2_uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/mybot_navigation2_uninstall.dir/depend
 

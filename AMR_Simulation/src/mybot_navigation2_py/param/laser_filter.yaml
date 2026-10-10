@@ -1,0 +1,60 @@
+scan_to_scan_filter_chain:
+  ros__parameters:
+
+    # ── 1. RANGE ─────────────────────────────────────────────────────────────
+    # A1 hardware minimum is 0.15 m; anything below 0.2 m is noise.
+    # A1 reliable ceiling is ~6 m — beyond that returns are too noisy for SLAM.
+    # Replacement .inf is skipped by SLAM (inf > max_laser_range).
+    filter1:
+      name: range_filter
+      type: laser_filters/LaserScanRangeFilter
+      params:
+        use_message_range_limits: false
+        lower_threshold: 0.1
+        upper_threshold: 10.0
+        lower_replacement_value: 0.0
+        upper_replacement_value: 0.0
+
+    # ── 2. ANGLE — keep front 180° ────────────────────────────────────────────
+    # Lidar is at the FRONT of the chassis (x=0.122 m).
+    # -90° (right) → +90° (left) keeps everything in front of the robot.
+    # The back half (±90° → ±180°) sees the chassis body → discarded.
+    filter2:
+      name: angle_bounds_left
+      type: laser_filters/LaserScanAngularBoundsFilter
+      params:
+        lower_angle: 1.570795 
+        upper_angle:  3.14159   #  +90° left
+    filter5:
+      name: angle_bounds_right
+      type: laser_filters/LaserScanAngularBoundsFilter
+      params:
+        lower_angle: -3.14159
+        upper_angle:  -1.570795   #  +90° left
+
+    # ── 3. SPECKLE — remove A1 phantom points ────────────────────────────────
+    # Type 0 (Distance): removes isolated points whose BOTH immediate
+    # neighbours differ by more than max_range_difference.
+    # 0.5 m threshold keeps corner data (real edges change >0.5 m from wall)
+    # while removing single-pixel noise (differs 1–3 m from neighbours).
+    # max_range must match the range filter ceiling above.
+    filter3:
+      name: speckle_filter
+      type: laser_filters/LaserScanSpeckleFilter
+      params:
+        filter_type: 0
+        max_range: 6.0
+        max_range_difference: 0.5
+        filter_window: 1
+
+    # ── 4. SHADOW — remove grazing-angle ghost walls ─────────────────────────
+    # When a laser beam barely grazes a wall edge it creates a "shadow" return
+    # just behind the edge — a false obstacle. This filter removes those.
+    filter4:
+      name: shadow_filter
+      type: laser_filters/ScanShadowsFilter
+      params:
+        min_angle: 10.0
+        max_angle: 170.0
+        neighbors: 1
+        window: 1

@@ -41,6 +41,19 @@ Visualization Manager:
   Displays:
     - Class: rviz_default_plugins/MarkerArray
       Enabled: true
+      Name: Topology Lanes (mybot_rmf)
+      Namespaces:
+        {}
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /navgraph_markers
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
       Name: NavGraph (RMF)
       Namespaces:
         {}

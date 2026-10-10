@@ -1,0 +1,39 @@
+rmf_fleet:
+  name: mybot_fleet
+
+  # Path to the nav graph
+  nav_graph_file: /home/nam/ROBOT_AMR_LAB20_07/AMR_Simulation/AMR_Simulation/src/mybot_rmf/maps/nav_graph.yaml
+
+  # Robot footprint / vicinity for traffic scheduling
+  profile:
+    footprint_radius: 0.30   # metres — actual robot half-width
+    vicinity_radius:  0.60   # metres — personal-space bubble for scheduling
+
+  # Motion limits (match mybot2.yaml controller params)
+  limits:
+    linear:
+      velocity:     1.4   # m/s
+      acceleration: 0.7   # m/s²
+    angular:
+      velocity:     3.2   # rad/s
+      acceleration: 6.2   # rad/s²
+
+  # Battery model
+  battery:
+    voltage:          12.0   # V
+    capacity:         24.0   # Ah
+    charging_current:  5.0   # A
+
+  # ---- Robots in this fleet ----------------------------------------
+  robots:
+    - name: mybot
+      # Starting pose in map frame (x, y, yaw_radians)
+      start_x:   0.369
+      start_y:   2.58
+      start_yaw: 0.0
+      start_map: Base
+
+      # Name of the charger/home waypoint in the nav graph
+      charger_waypoint: start
+
+      initial_battery_soc: 1.0   # 0.0–1.0

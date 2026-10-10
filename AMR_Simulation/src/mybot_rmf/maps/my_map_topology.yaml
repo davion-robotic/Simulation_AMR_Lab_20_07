@@ -1,0 +1,6 @@
+levels:
+  L1:
+    vertices: []
+    lanes: []
+lifts: {}
+doors: {}

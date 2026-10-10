@@ -1,0 +1,15 @@
+{
+  "map_name": "test1",
+  "goals": [
+    {
+      "goal_id": "P1",
+      "name": "Point 1",
+      "pose": {
+        "x": 0.5,
+        "y": 0.5,
+        "theta": 0.0
+      },
+      "description": ""
+    }
+  ]
+}

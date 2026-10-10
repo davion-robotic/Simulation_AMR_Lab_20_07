@@ -1,0 +1,15 @@
+{
+  "map_name": "L1.building",
+  "goals": [
+    {
+      "goal_id": "P1",
+      "name": "Khu vực chính",
+      "pose": {
+        "x": 0.0,
+        "y": 0.0,
+        "theta": 0.0
+      },
+      "description": ""
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+### EKF Filter Configuration for AMR Robot
+### Fuses Wheel Odometry (/odom), Laser Odometry (/scan_odom), and IMU (/imu)
+ekf_filter_node:
+  ros__parameters:
+    use_sim_time: true
+    frequency: 30.0
+    sensor_timeout: 0.1
+    two_d_mode: true
+    transform_time_offset: 0.0
+    transform_timeout: 0.0
+    print_diagnostics: true
+    debug: false
+
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom
+
+    publish_tf: true
+    publish_acceleration: false
+
+    # =========================================================================
+    # SENSOR 1: WHEEL ODOMETRY (/odom)
+    # Cung cấp vận tốc tuyến tính vx và vận tốc góc yaw_rate
+    # [x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az]
+    # =========================================================================
+    odom0: /odom
+    odom0_config: [false, false, false,
+                   false, false, false,
+                   true,  true,  false,
+                   false, false, true,
+                   false, false, false]
+    odom0_queue_size: 10
+    odom0_nodelay: true
+    odom0_differential: false
+    odom0_relative: false
+
+    # =========================================================================
+    # SENSOR 2: LASER SCAN MATCHER ODOMETRY (/scan_odom)
+    # PL-ICP Laser Odometry cung cấp vị trí x, y, góc quay yaw và vận tốc
+    # [x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az]
+    # =========================================================================
+    odom1: /scan_odom
+    odom1_config: [true,  true,  false,
+                   false, false, true,
+                   true,  true,  false,
+                   false, false, true,
+                   false, false, false]
+    odom1_queue_size: 10
+    odom1_nodelay: true
+    odom1_differential: false
+    odom1_relative: false
+
+    # =========================================================================
+    # SENSOR 3: IMU SENSOR (/imu)
+    # Cung cấp góc quay yaw, vận tốc góc yaw_rate và gia tốc tuyến tính ax
+    # [x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az]
+    # =========================================================================
+    imu0: /imu
+    imu0_config: [false, false, false,
+                  false, false, true,
+                  false, false, false,
+                  false, false, true,
+                  true,  false, false]
+    imu0_nodelay: true
+    imu0_differential: false
+    imu0_relative: false
+    imu0_queue_size: 10
+    imu0_remove_gravitational_acceleration: true

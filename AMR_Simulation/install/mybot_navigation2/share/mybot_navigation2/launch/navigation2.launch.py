@@ -1,106 +1,112 @@
-# Copyright 2019 Open Source Robotics Foundation, Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# Author: Darby Lim
-
 import os
 
 from ament_index_python.packages import get_package_share_directory
+
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.actions import IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+
 from launch_ros.actions import Node
 
+
 def generate_launch_description():
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    rmf = LaunchConfiguration('rmf', default='false')
-    map_dir = LaunchConfiguration(
+
+    pkg_dir = get_package_share_directory('mybot_navigation2')
+
+    #
+    # Default map
+    #
+    default_map = os.path.join(
+        pkg_dir,
         'map',
-        default=os.path.join(
-            get_package_share_directory('mybot_navigation2'),
-            'map',
-            'my_map.yaml'))
+        'my_map.yaml'
+    )
 
-    # param_file_name =  'nav2_params.yaml'
-    param_file_name =  'mybot2.yaml'
-    param_dir = LaunchConfiguration(
-        'params_file',
-        default=os.path.join(
-            get_package_share_directory('mybot_navigation2'),
-            'param',
-            'humble',
-            param_file_name))
-    nav2_launch_file_dir = os.path.join(get_package_share_directory('nav2_bringup'), 'launch')
+    #
+    # Launch arguments
+    #
+    map_file = LaunchConfiguration('map')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    rmf = LaunchConfiguration('rmf')
+    params_file = LaunchConfiguration('params_file')
 
-    # Goal tool depends on the 'rmf' flag:
-    #   rmf:=false → tb3_navigation2.rviz : Nav2 Goal tool → drive the robot DIRECTLY
-    #   rmf:=true  → tb3_rmf.rviz         : goal → /rmf_goal_pose (needs rmf.launch.py)
-    rviz_nav2 = os.path.join(
-        get_package_share_directory('mybot_navigation2'), 'rviz', 'tb3_navigation2.rviz')
-    rviz_rmf = os.path.join(
-        get_package_share_directory('mybot_navigation2'), 'rviz', 'tb3_rmf.rviz')
+    #
+    # Default params
+    #
+    default_params = os.path.join(
+        pkg_dir,
+        'param',
+        'humble',
+        'mybot2.yaml'
+    )
+
+    nav2_launch_file_dir = os.path.join(
+        get_package_share_directory('nav2_bringup'),
+        'launch'
+    )
 
     return LaunchDescription([
+
+        #
+        # Map
+        #
         DeclareLaunchArgument(
             'map',
-            default_value=map_dir,
-            description='Full path to map file to load'),
-
-        DeclareLaunchArgument(
-            'params_file',
-            default_value=param_dir,
-            description='Full path to param file to load'),
-
-        DeclareLaunchArgument(
-            'use_sim_time',
-            default_value='false',
-            description='Use simulation (Gazebo) clock if true'),
-
-        DeclareLaunchArgument(
-            'rmf',
-            default_value='false',
-            description='true: goal tool publishes /rmf_goal_pose (control via rmf.launch.py); '
-                        'false: direct Nav2 Goal control'),
-
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/bringup_launch.py']),
-            launch_arguments={
-                'map': map_dir,
-                'use_sim_time': use_sim_time,
-                'params_file': param_dir}.items(),
+            default_value=default_map,
+            description='Full path to map yaml'
         ),
 
-        # RViz — direct Nav2 control (rmf:=false)
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            arguments=['-d', rviz_nav2],
-            parameters=[{'use_sim_time': use_sim_time}],
-            output='screen',
-            condition=UnlessCondition(rmf)),
+        #
+        # Nav2 Params
+        #
+        DeclareLaunchArgument(
+            'params_file',
+            default_value=default_params,
+            description='Nav2 parameter file'
+        ),
 
-        # RViz — RMF goal tool (rmf:=true)
+        #
+        # Sim Time
+        #
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value='true',
+            description='Use simulation (Gazebo) clock if true'
+        ),
+
+        # Nav2 Bringup (Core Navigation Stack)
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(
+                    nav2_launch_file_dir,
+                    'bringup_launch.py'
+                )
+            ),
+            launch_arguments={
+                'map': map_file,
+                'params_file': params_file,
+                'use_sim_time': use_sim_time,
+                'use_composition': 'False',
+            }.items(),
+        ),
+
+        # Reset Pose Node (Listens on /localization/reset_pose and publishes (0,0,0) to /initialpose)
         Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            arguments=['-d', rviz_rmf],
+            package='mybot_localization',
+            executable='reset_pose',
+            name='reset_pose_node',
             parameters=[{'use_sim_time': use_sim_time}],
-            output='screen',
-            condition=IfCondition(rmf)),
+            output='screen'
+        ),
+
+        # Initial Pose Node (Listens on /localization/initial_pose for custom pose / last pose)
+        Node(
+            package='mybot_localization',
+            executable='initial_pose',
+            name='initial_pose_node',
+            parameters=[{'use_sim_time': use_sim_time}],
+            output='screen'
+        ),
     ])

@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+import sys
+from pathlib import Path
+
+site_pkgs = Path(__file__).resolve().parent.parent / 'python3.10' / 'site-packages'
+src_dir = Path(__file__).resolve().parent.parent.parent.parent / 'src' / 'mybot_rmf'
+common_dir = Path(__file__).resolve().parent.parent.parent.parent / 'src' / 'mybot_common'
+
+for p in [str(site_pkgs), str(src_dir), str(common_dir)]:
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
+from mybot_rmf.viz_navgraph import main
+
+if __name__ == '__main__':
+    main()

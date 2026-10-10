@@ -1,0 +1,81 @@
+collision_monitor:
+  ros__parameters:
+    use_sim_time: false
+
+    base_frame_id: base_link
+    odom_frame_id: odom
+
+    cmd_vel_in_topic: cmd_vel_smoothed
+    cmd_vel_out_topic: cmd_vel_control
+
+    cmd_vel_in_topic: cmd_vel
+    cmd_vel_out_topic: cmd_vel_out
+
+
+    state_topic: collision_monitor_state
+
+    transform_tolerance: 0.5
+    source_timeout: 2.0
+    stop_pub_timeout: 2.0
+
+    enable_stamped_cmd_vel: true
+    base_shift_correction: false
+
+    polygons: ["PolygonStop", "PolygonSlow","PolygonSlow2","PolygonSlow3"]
+
+    # 🔴 HARD STOP ZONE (inner)
+    PolygonStop:
+      type: polygon
+      action_type: stop
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_stop
+      points: [0.5, 0.20,
+               0.5, -0.20,
+              -0.20, -0.20,
+              -0.20, 0.20]
+
+    # 🟡 SLOW ZONE (outer)
+    PolygonSlow:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.8   # 🔥 smooth braking (5–20% speed feels best)
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_sPolygonSlowlowdown
+      points: [1.0, 1.0,
+               1.0, -1.0,
+              -1.0, -1.0,
+              -1.0, 1.0]
+        
+    PolygonSlow2:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.7   # 🔥 smooth braking (5–20% speed feels best)
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_slowdown
+      points: [0.8, 0.8,
+               0.8, -0.8,
+              -0.8, -0.8,
+              -0.8, 0.8]
+    PolygonSlow3:
+      type: polygon
+      action_type: slowdown
+      slowdown_ratio: 0.6   # 🔥 smooth braking (5–20% speed feels best)
+      enabled: true
+      visualize: true
+      polygon_pub_topic: polygon_slowdown
+      points: [0.6, 0.6,
+               0.6, -0.6,
+              -0.6, -0.6,
+              -0.6, 0.6]
+    
+
+    observation_sources: ["scan"]
+
+    scan:
+      type: scan
+      topic: /scan_filtered
+      enabled: true
+      source_timeout: 2.0

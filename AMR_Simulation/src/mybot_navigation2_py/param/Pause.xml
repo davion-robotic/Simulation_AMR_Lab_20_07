@@ -1,0 +1,141 @@
+<!--
+  Navigate To Pose — Pause Near Goal Obstacle
+  =====================================================================
+  What this BT does differently from the default:
+    1. Navigates normally toward the goal (replanning at 1 Hz)
+    2. When the robot is CLOSE to the goal and detects an obstacle,
+       it PAUSES and waits up to `wait_duration` seconds
+    3. If the obstacle clears → continues on the SHORT path to goal
+    4. If the obstacle does NOT clear → replans a LONGER path around it
+  This is ideal for AMRs working around forklifts, people, or carts
+  that temporarily block goal areas.
+  =====================================================================
+  Adapted for:
+    - controller:  FollowPath  (RotationShimController + RPP)
+    - planner:     GridBased   (NavFn)
+    - wait_duration: 5.0 sec  ← tune this to your environment
+    - goal_dist_tol: 1.0 m    ← how close = "near goal"
+-->
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+
+    <RecoveryNode number_of_retries="6" name="NavigateRecovery">
+
+      <!-- ══════════════════════════════════════════════
+           NAVIGATION SUBTREE
+           Runs planning + following with pause logic
+      ══════════════════════════════════════════════ -->
+      <PipelineSequence name="NavigateWithReplanning">
+
+        <!-- Lock in controller and planner plugins -->
+        <ControllerSelector selected_controller="{selected_controller}"
+                            default_controller="FollowPath"
+                            topic_name="controller_selector"/>
+        <PlannerSelector   selected_planner="{selected_planner}"
+                            default_planner="GridBased"
+                            topic_name="planner_selector"/>
+
+        <!-- Replan at 1 Hz -->
+        <RateController hz="0.5">
+          <RecoveryNode number_of_retries="1" name="ComputePathToPose">
+
+            <!-- ── PAUSE NEAR GOAL LOGIC ─────────────────────────────
+                 PathLongerOnApproach checks if the new path is
+                 significantly longer than the current one.
+                 If yes (= obstacle moved us away), it triggers a Wait
+                 so the robot pauses hoping the obstacle clears.
+                 If the obstacle clears → the shorter path is used.
+                 If Wait expires → the longer path is accepted.
+            ──────────────────────────────────────────────────────── -->
+            <Sequence name="ComputeAndPauseIfNeeded">
+              <ComputePathToPose goal="{goal}"
+                                 path="{path}"
+                                 planner_id="{selected_planner}"
+                                 error_code_id="{compute_path_error_code}"/>
+
+              <!-- Only pause if we are close to the goal -->
+              <ReactiveFallback name="PauseIfObstacleNearGoal">
+                <!-- Condition: is new path much longer? (obstacle blocking) -->
+                <Inverter>
+                  <PathLongerOnApproach path="{path}"
+                                        prox_len="1.5"
+                                        length_factor="3.0"/>
+                </Inverter>
+
+                <!-- Yes it's longer → wait and hope obstacle clears -->
+                <Sequence name="WaitAndReplan">
+                  <Wait wait_duration="5.0"/>
+                  <!-- Replan after waiting -->
+                  <ComputePathToPose goal="{goal}"
+                                     path="{path}"
+                                     planner_id="{selected_planner}"
+                                     error_code_id="{compute_path_error_code}"/>
+                </Sequence>
+              </ReactiveFallback>
+            </Sequence>
+
+            <!-- Contextual recovery: clear global costmap if planning fails -->
+            <ReactiveFallback name="ComputePathRecovery">
+              <GoalUpdated/>
+              <ClearEntireCostmap name="ClearGlobalCostmap-Context"
+                                  service_name="global_costmap/clear_entirely_global_costmap"/>
+            </ReactiveFallback>
+
+          </RecoveryNode>
+        </RateController>
+
+        <!-- Follow the computed path -->
+        <RecoveryNode number_of_retries="1" name="FollowPath">
+          <FollowPath path="{path}"
+                      controller_id="{selected_controller}"
+                      error_code_id="{follow_path_error_code}"/>
+
+          <!-- Contextual recovery: clear local costmap if following fails -->
+          <ReactiveFallback name="FollowPathRecovery">
+            <GoalUpdated/>
+            <ClearEntireCostmap name="ClearLocalCostmap-Context"
+                                service_name="local_costmap/clear_entirely_local_costmap"/>
+          </ReactiveFallback>
+        </RecoveryNode>
+
+      </PipelineSequence>
+
+      <!-- ══════════════════════════════════════════════
+           RECOVERY SUBTREE
+           Triggered when Navigation subtree fails
+           Tries: clear costmaps → spin → wait → backup
+      ══════════════════════════════════════════════ -->
+      <ReactiveFallback name="RecoveryFallback">
+        <GoalUpdated/>
+        <RoundRobin name="RecoveryActions">
+
+          <!-- 1. Clear both costmaps -->
+          <Sequence name="ClearingActions">
+            <ClearEntireCostmap name="ClearLocalCostmap-Subtree"
+                                service_name="local_costmap/clear_entirely_local_costmap"/>
+            <ClearEntireCostmap name="ClearGlobalCostmap-Subtree"
+                                service_name="global_costmap/clear_entirely_global_costmap"/>
+          </Sequence>
+
+          <!-- 2. Spin in place to get sensor coverage -->
+          <Spin spin_dist="1.57"
+                error_code_id="{spin_error_code}"/>
+
+          <!-- 3. Wait 5 seconds -->
+          <Wait wait_duration="5.0"/>
+
+          <!-- NOTE: BackUp is commented out because your robot has
+               min_linear_vel: 0.0 (no reversing allowed).
+               Uncomment and set allow_reversing: true in mybot2.yaml
+               if you want backup recovery.
+          <BackUp backup_dist="0.15"
+                  backup_speed="0.025"
+                  error_code_id="{backup_error_code}"/>
+          -->
+
+        </RoundRobin>
+      </ReactiveFallback>
+
+    </RecoveryNode>
+  </BehaviorTree>
+</root>
