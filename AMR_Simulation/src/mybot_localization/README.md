@@ -119,3 +119,71 @@ ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose "{pose: 
 | **Tạo Điểm Goal (Create Goal)** | `/goal_manager/create_goal` | `{"map_name": "map_lab20", "goal_id": "P1", "name": "Bàn 1", "use_current_pose": true}` |
 | **Lấy Danh Sách Goal** | `/goal_manager/get_goals_req` | `{"data": "map_lab20"}` |
 | **Xóa Điểm Goal** | `/goal_manager/delete_goal` | `{"map_name": "map_lab20", "goal_id": "P1"}` |
+
+---
+
+## 4. Toàn Bộ Luồng Điều Hướng Sau Khi Đã Nạp Topology (Topology-Constrained Navigation)
+
+Luồng điều hướng bám làn 100% theo các nét vẽ Topology RMF (Open-RMF Lanes) thay vì để Robot chạy tự do:
+
+### A. Sơ Đồ Trình Tự Thực Thi (Sequence Diagram)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Người dùng (RViz2 / CLI)
+    participant Node as goto_waypoint_node
+    participant TF as TF Buffer (map -> base_footprint)
+    participant Graph as Topology Graph (Vertices & Lanes)
+    participant BFS as BFS Shortest Path Finder
+    participant Interp as Pose Interpolator (0.25m)
+    participant Nav2 as Nav2 (/navigate_through_poses)
+
+    User->>Node: Gửi Goal Pose (2D Nav Goal hoặc CLI "P3")
+    Node->>Graph: Nạp đồ thị Topology (load_graph)
+    Graph-->>Node: Trả về danh sách Vertices (Trạm) & Lanes (Làn đường)
+    
+    Node->>TF: Cập nhật vị trí Robot hiện tại (x, y, yaw)
+    TF-->>Node: (robot_x, robot_y)
+    Node->>Node: Tìm trạm gần robot nhất (start_idx)
+    
+    alt Trường hợp 1: Click gần Trạm đỗ (< 0.4m)
+        Node->>Node: Chọn đích là Trạm đỗ (target_wp_idx)
+    else Trường hợp 2: Click trên hoặc lân cận làn đường
+        Node->>Node: Chiếu vuông góc lên làn gần nhất (project_point_on_segment)
+    end
+
+    Node->>BFS: find_shortest_topology_path(start, target, vertices, lanes)
+    Note over BFS: Thuật toán BFS duyệt các cạnh trong Lanes (hỗ trợ 2 chiều)
+    BFS-->>Node: Trả về danh sách thứ tự đỉnh lộ trình [v0, v1, v2...]
+
+    Node->>Interp: generate_interpolated_poses(route_pts, step=0.25m)
+    Note over Interp: Băm nhỏ đường thành các điểm cách nhau 25cm<br/>Tính góc Yaw xoay dọc theo chiều làn
+    Interp-->>Node: Danh sách PoseStamped bám chặt theo làn
+
+    Node->>Nav2: Hủy Goal cũ (nếu có) & Gửi Goal mới qua Worker Thread
+    Note over Nav2: Action Server: /navigate_through_poses
+    Nav2-->>Node: Robot bám 100% vạch vẽ làn Topology tới đích!
+```
+
+### B. Các Bước Xử Lý Cốt Lõi Trong Thuật Toán
+
+1. **Xác định vị trí robot & điểm trạm xuất phát (`start_idx`)**:
+   - Tra cứu TF `map` $\to$ `base_footprint` lấy tọa độ thực thời của robot.
+   - Quét mảng `vertices` để tìm đỉnh trạm có khoảng cách Euclid nhỏ nhất tới vị trí robot.
+
+2. **Phân loại mục tiêu di chuyển**:
+   - **Click trạm đỗ (Khoảng cách < 0.4m)**: Dẫn hướng trực tiếp tới tâm trạm đó.
+   - **Click điểm tự do lân cận làn**: Sử dụng giải thuật hình học `project_point_on_segment` để tìm điểm hình chiếu vuông góc gần nhất trên đoạn thẳng làn đường (`best_proj`). Robot sẽ chạy bám theo làn đến hình chiếu rồi mới rẽ ra vị trí click.
+
+3. **Tìm đường ngắn nhất trên đồ thị làn (`BFS`)**:
+   - Dựng đồ thị kề `adj` từ danh sách `lanes` (kiểm tra cờ hai chiều `is_bidirectional`).
+   - Sử dụng hàng đợi BFS duyệt tìm chuỗi đỉnh đi qua ít cạnh nhất từ `start_idx` tới `target_idx`.
+
+4. **Nội suy tọa độ dày đặc (Interpolation step = 0.25m)**:
+   - Dọc theo các đoạn thẳng giữa các đỉnh, cứ mỗi `0.25m` sinh ra một `PoseStamped` với vector góc hướng `yaw = atan2(dy, dx)`.
+   - Giúp Local Planner của Nav2 bám chính xác vào vạch vẽ ảo như xe chạy trên đường ray.
+
+5. **Thực thi điều hướng bất đồng bộ (Asynchronous Threading)**:
+   - Hủy bỏ Goal Nav2 cũ nếu đang chạy (`cancel_active_navigation`).
+   - Khởi chạy tiến trình riêng `_navigation_worker` gọi Action `/navigate_through_poses`, đảm bảo không làm khóa luồng hoặc nghẽn ROS 2 Executor khi người dùng click điểm liên tiếp.
